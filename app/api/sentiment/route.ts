@@ -14,7 +14,9 @@ const querySentiment = async (content: string) => {
 	);
 
 	if (!response.ok) {
-		throw new Error("Failed to fetch sentiment data");
+		throw new Error(
+			`Failed to fetch sentiment data: ${response.statusText}`
+		);
 	}
 
 	const result = await response.json();
@@ -24,9 +26,21 @@ const querySentiment = async (content: string) => {
 export async function POST(request: Request) {
 	try {
 		const { content } = await request.json();
+
+		if (!content || typeof content !== "string") {
+			return NextResponse.json(
+				{ error: "Invalid content provided" },
+				{ status: 400 }
+			);
+		}
+
 		const sentiment = await querySentiment(content);
 		return NextResponse.json(sentiment);
 	} catch (error) {
-		return NextResponse.error();
+		console.error("Error in sentiment analysis:", error);
+		return NextResponse.json(
+			{ error: "An error occurred while processing the request" },
+			{ status: 500 }
+		);
 	}
 }

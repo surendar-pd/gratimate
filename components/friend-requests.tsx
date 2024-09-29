@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import {
 	collection,
 	query,
@@ -19,7 +19,7 @@ interface FriendRequest {
 	id: string;
 	from: string;
 	status: string;
-	fromUserData?: any; // To store the actual user data from 'users' collection
+	fromUserData?: User; // To store the actual user data from 'users' collection
 }
 
 const FriendRequests = () => {
@@ -56,7 +56,7 @@ const FriendRequests = () => {
 					// Fetch the user data based on 'from' field (user who sent the request)
 					const fromUserRef = doc(db, "users", requestData.from);
 					const fromUserSnap = await getDoc(fromUserRef);
-					const fromUserData = fromUserSnap.data();
+					const fromUserData = fromUserSnap.data() as User | undefined;
 
 					// Attach the actual user data to the request object
 					return {
@@ -129,8 +129,14 @@ const FriendRequests = () => {
 									width={100}
 									height={100}
 									unoptimized
-									src={request.fromUserData?.photoURL}
-									alt={request.fromUserData?.displayName}
+									src={
+										request.fromUserData?.photoURL ||
+										"https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg"
+									}
+									alt={
+										request.fromUserData?.displayName ||
+										"User"
+									}
 									className="w-12 h-12 rounded-full"
 								/>
 								<div className="flex flex-col">

@@ -10,6 +10,7 @@ import {
 	doc,
 	getDoc,
 	Timestamp,
+	orderBy,
 } from "firebase/firestore";
 import { db } from "@/firebase"; // Make sure you have Firebase initialized
 import Image from "next/image";
@@ -28,7 +29,6 @@ interface Post {
 
 const PostsFeed = () => {
 	const [posts, setPosts] = useState<(Post & { user: User })[]>([]); // Posts with user details
-	const [friends, setFriends] = useState<string[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
 
@@ -67,13 +67,12 @@ const PostsFeed = () => {
 			const userData = userSnap.data();
 			const userFriends = userData?.friends || [];
 
-			setFriends(userFriends);
-
 			// Fetch all posts that are either public or posted by friends
 			const postsRef = collection(db, "posts");
 			const q = query(
 				postsRef,
-				where("audience", "in", ["public", "friends"])
+				where("audience", "in", ["public", "friends"]),
+				orderBy("timestamp", "desc")
 			);
 			const querySnapshot = await getDocs(q);
 
@@ -92,7 +91,7 @@ const PostsFeed = () => {
 			// Filter the posts that are either public or from friends
 			const filteredPosts = postsList.filter(
 				(post) =>
-					post.audience === "public" || userFriends.includes(post.uid)
+					post.audience === "public" || userFriends.includes(post.uid) || post.uid === uid
 			);
 
 			setPosts(filteredPosts);
@@ -136,7 +135,7 @@ const PostsFeed = () => {
 			) : (
 				<ul className="h-full pb-[4rem]">
 					{posts.map((post) => (
-						<li key={post.id} className="p-4 border-b">
+						<li key={post.id} className="py-4 border-b">
 							<div className="mb-2">
 								<div className="w-full flex items-center justify-between">
 									<div className="flex items-center gap-2">

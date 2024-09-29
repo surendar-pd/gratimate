@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 // Import necessary Firebase modules
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import {
 	Dialog,
 	DialogContent,
@@ -13,18 +13,17 @@ import {
 } from "@/components/ui/dialog";
 import {
 	Drawer,
-	DrawerClose,
 	DrawerContent,
 	DrawerHeader,
 	DrawerTitle,
 	DrawerDescription,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useMediaQuery } from "@uidotdev/usehooks";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { auth, db } from "@/firebase";
 import Image from "next/image";
+import { toast } from "sonner";
 
 interface User {
 	id: string;
@@ -44,7 +43,7 @@ const AddNewFriend: React.FC = () => {
 	const [users, setUsers] = useState<User[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
-	const isDesktop = useMediaQuery("(min-width: 768px)");
+	const isDesktop = typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
 	const [currentUser, setCurrentUser] = useState<string>("");
 	const [requestedUsers, setRequestedUsers] = useState<RequestedUser[]>([]); // Track requested users with status
 
@@ -133,9 +132,11 @@ const AddNewFriend: React.FC = () => {
 				...prev,
 				{ id: userId, status: "pending" },
 			]); // Add to requested users
-			alert("Friend request sent!");
+			toast.success("Friend request sent successfully.");
+			setOpen(false);
 		} catch (error) {
 			console.error("Error adding friend request: ", error);
+			setOpen(false);
 		}
 	};
 

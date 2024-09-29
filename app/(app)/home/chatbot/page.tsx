@@ -1,13 +1,15 @@
 import ChatBotInterface from "@/components/chat-bot-interface";
 import Header from "@/components/header";
-import React from "react";
+import React, { Suspense } from "react";
 
 const ChatBotPage = () => {
 	return (
 		<div className="w-full h-full">
 			<Header text="Chatbot" />
-			<div className="overflow-y-auto">
-				<ChatBotInterface />
+			<div className="relative">
+				<Suspense fallback={<p>Loading...</p>}>
+					<ChatBotInterface />
+				</Suspense>
 			</div>
 		</div>
 	);

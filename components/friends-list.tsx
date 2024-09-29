@@ -1,21 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {
-	collection,
-	doc,
-	getDoc,
-	getDocs,
-	query,
-	where,
-} from "firebase/firestore";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import Image from "next/image";
 
 interface Friend {
 	id: string;
-	friendData?: any; // To store friend user data from 'users' collection
+	friendData?: User; // To store friend user data from 'users' collection
 }
 
 const FriendsList = () => {
@@ -88,8 +81,14 @@ const FriendsList = () => {
 									width={100}
 									height={100}
 									unoptimized
-									src={friend.friendData?.photoURL}
-									alt={friend.friendData?.displayName}
+									src={
+										friend.friendData?.photoURL ||
+										"https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg"
+									}
+									alt={
+										friend.friendData?.displayName ||
+										"Friend's profile picture"
+									}
 									className="w-12 h-12 rounded-full"
 								/>
 								<div className="flex flex-col">

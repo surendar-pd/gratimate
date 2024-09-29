@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 
 const AppNavbar = () => {
 	return (
-		<nav className="w-full sticky bg-white top-0 flex justify-between items-center min-h-[4rem] px-4 md:px-16  border-b">
+		<nav className="w-full fixed z-50 bg-white top-0 flex justify-between items-center min-h-[4rem] px-4 md:px-16  border-b">
 			<div>
 				<Link href={"/"}>
 					<h1 className="text-2xl font-bold">Grati<span className="font-normal">mate</span></h1>

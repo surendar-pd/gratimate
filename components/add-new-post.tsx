@@ -19,13 +19,15 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useMediaQuery } from "@uidotdev/usehooks";
 import NewPostForm from "./new-post-form";
 import { Plus } from "lucide-react";
 
 const AddNewPost = () => {
 	const [open, setOpen] = React.useState(false);
-	const isDesktop = useMediaQuery("(min-width: 768px)");
+	const isDesktop =
+		typeof window !== "undefined" &&
+		window.matchMedia("(min-width: 768px)").matches;
+	// const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	if (isDesktop) {
 		return (
@@ -39,9 +41,9 @@ const AddNewPost = () => {
 					<DialogHeader>
 						<DialogTitle>Add a new Post</DialogTitle>
 						<DialogDescription>
-							"Share your thoughts, stories, and moments of
+							&quot;Share your thoughts, stories, and moments of
 							gratitude seamlessly with our community – your space
-							to reflect, connect, and grow."
+							to reflect, connect, and grow.&quot;
 						</DialogDescription>
 					</DialogHeader>
 					<NewPostForm setOpen={setOpen} />
@@ -62,7 +64,7 @@ const AddNewPost = () => {
 					<DrawerTitle>Edit profile</DrawerTitle>
 					<DrawerDescription>
 						Make changes to your profile here. Click save when
-						you're done.
+						you&apos;re done.
 					</DrawerDescription>
 				</DrawerHeader>
 				<NewPostForm setOpen={setOpen} className="px-4" />

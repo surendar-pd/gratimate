@@ -30,12 +30,13 @@ const GoogleAuthButton = () => {
 						createdAt: new Date(), // Add a createdAt field
 					});
 					console.log("User data saved:", user);
+					router.push("/home"); // Adjust the path as needed
 				} else {
 					console.log("User already exists:", user);
+					router.push("/home"); // Adjust the path as needed
 				}
 
 				// Redirect to home page
-				router.push("/home"); // Adjust the path as needed
 			}
 		});
 

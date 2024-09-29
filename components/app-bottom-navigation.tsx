@@ -1,3 +1,4 @@
+"use client";
 import { Bot, House, MessageCircleHeart, Plus, UsersRound } from "lucide-react";
 import React from "react";
 import Link from "next/link"; // Assuming you're using Next.js
@@ -54,7 +55,11 @@ const BottomNavigation = () => {
 											className="flex flex-co items-center justify-center"
 											asChild
 										>
-											<Link href={item.link} passHref>
+											<Link
+												scroll={false}
+												href={item.link}
+												passHref
+											>
 												<item.icon size={20} />
 											</Link>
 										</Button>

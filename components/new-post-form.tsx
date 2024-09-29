@@ -17,6 +17,7 @@ import { getAuth } from "firebase/auth";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/firebase"; // Ensure Firebase is correctly set up
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type NewPostFormProps = React.ComponentProps<"form"> & {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -45,7 +46,7 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 	const [formError, setFormError] = useState<string | null>(null);
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [isAnalyzing, setIsAnalyzing] = useState(false);
-	const [sentimentResult, setSentimentResult] = useState<any>(null);
+	const router = useRouter();
 
 	const handleInputChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -107,8 +108,12 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 
 				setFormError(null);
 				setIsFormValid(true);
-			} catch (error: any) {
-				setFormError(error.errors[0].message);
+			} catch (error) {
+				if (error instanceof z.ZodError) {
+					setFormError(error.errors[0].message);
+				} else {
+					setFormError("An unexpected error occurred");
+				}
 				setIsFormValid(false);
 			}
 		};
@@ -153,8 +158,6 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 
 			const sentimentResponse = await querySentiment(contentToAnalyze);
 			if (sentimentResponse) {
-				setSentimentResult(sentimentResponse); // Store sentiment result
-
 				// Check if the sentiment contains a positive label
 				const positiveLabel =
 					sentimentResponse[0][0].label === "POSITIVE";
@@ -183,10 +186,13 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 							);
 							setOpen(false);
 						} catch (error) {
-							toast.error("Error creating post");
+							toast.error("Error creating post" + error);
 							setOpen(false);
 						}
 					}
+				} else {
+					router.push(`/home/chatbot?prompt=${contentToAnalyze}`);
+					setOpen(false);
 				}
 			}
 			setIsAnalyzing(false);
