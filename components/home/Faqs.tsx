@@ -14,60 +14,42 @@ function Faqs() {
 	[];
 	const FAQS: FaqData[] = [
 		{
-			question: 'What is DeWorks, and how does it work?',
-			answer: 'DeWorks is a decentralized platform connecting freelancers and clients. Freelancers can offer their skills, and clients can post projects. Smart contracts handle project agreements and payments securely.',
+			question: 'What is GratiMate?',
+			answer: 'GratiMate is a mental wellbeing app designed to foster positivity, gratitude, and community through journaling and social interactions.',
 		},
 		{
 			question:
-				'Is DeWorks suitable for both beginners and experienced freelancers?',
-			answer: 'Yes, DeWorks caters to freelancers of all levels. It offers opportunities for newcomers to experts, making it a versatile platform for everyone.',
+				'Who can use GratiMate?',
+			answer: 'GratiMate is designed for anyone seeking to improve their mental health through positivity, regardless of age or background.',
 		},
 		{
-			question: 'How do I get started on DeWorks as a freelancer?',
-			answer: 'Register, create a profile, and start browsing available projects. Submit proposals, negotiate terms, and get to work once a client accepts your proposal.',
-		},
-		{
-			question:
-				'How can clients find the right freelancers for their projects?',
-			answer: 'Clients can post project details, review proposals from freelancers, and communicate directly with them. They can assess profiles, reviews, and previous work to make informed choices.',
-		},
-		{
-			question: 'Is my data safe on DeWorks?',
-			answer: 'DeWorks prioritizes data security. Our platform employs robust encryption and blockchain technology to safeguard your information and transactions.',
-		},
-		{
-			question: 'How are payments handled on DeWorks?',
-			answer: 'Payments are secured through smart contracts. Funds are held in escrow until both parties agree that the project has been completed as per the contract terms.',
+			question: 'How do I create an account?',
+			answer: 'You can easily create an account by signing up with your Google account for quick access.',
 		},
 		{
 			question:
-				'Can I collaborate with freelancers from different countries?',
-			answer: 'Absolutely! DeWorks provides a global network of freelancers and clients, allowing for international collaboration on projects.',
+				'Can I keep my journal private?',
+			answer: 'Absolutely! Your journal entries are private and accessible only to you, promoting personal reflection without external pressure.',
+		},
+		{
+			question: 'Are there any in-app purchases?',
+			answer: 'Currently, GratiMate is free to use, with no hidden fees or in-app purchases required.',
+		},
+		{
+			question: 'How does the gratitude tracker work? ',
+			answer: 'The gratitude tracker records your gratitude posts over time, helping you visualize your positive growth.',
 		},
 		{
 			question:
-				"What if there's a dispute between a freelancer and a client?",
-			answer: 'DeWorks offers a dispute resolution system to address issues. If a resolution cannot be reached, the smart contract terms will determine the outcome.',
-		},
-		// {
-		// 	question: 'Are there fees associated with using DeWorks?',
-		// 	answer: 'DeWorks charges a nominal fee for project transactions to support the platform. Details are available in the fee structure section.',
-		// },
-		{
-			question:
-				'How can I build a reputation as a freelancer on DeWorks?',
-			answer: 'Completing projects successfully, receiving positive feedback from clients, and delivering high-quality work will help you build a strong reputation on our platform.',
+				'Can I access GratiMate on multiple devices?',
+			answer: 'Yes, GratiMate is designed to sync across devices, allowing you to access your content anywhere.',
 		},
 		{
 			question:
-				"What happens if a client doesn't release payment upon project completion?",
-			answer: "Smart contracts on DeWorks ensure that payment is automatically released when the project is completed as per the agreed terms. If there's an issue, our dispute resolution system can be used.",
+				"How does the app maintain a positive environment?",
+			answer: 'AI analyzes user posts, redirecting negative content to the chatbot, ensuring a supportive community atmosphere.',
 		},
-		{
-			question:
-				'Can I hire freelancers for long-term projects on DeWorks?',
-			answer: "Yes, you can use DeWorks for both short-term and long-term projects. It's a versatile platform that accommodates various project durations and scopes.",
-		},
+
 	];
 
 	return (

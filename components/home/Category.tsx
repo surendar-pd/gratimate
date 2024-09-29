@@ -1,54 +1,42 @@
-import {
-	Briefcase,
-	CircleDollarSign,
-	FolderOpen,
-	Landmark,
-	Laptop2,
-	Megaphone,
-	MessageSquare,
-	Search,
-	LucideIcon,
-} from 'lucide-react';
+
 import React from 'react';
 
 interface CategoryData {
-	Svg: LucideIcon;
 	title: string;
 }
-
 function Category() {
 	const CATEGORY: CategoryData[] = [
 		{
-			Svg: Landmark,
-			title: 'Accounting',
+		
+			title: 'Gratefulness',
 		},
 		{
-			Svg: Briefcase,
-			title: 'Business & consulting',
+			
+			title: 'Emotional Intelligence',
 		},
 		{
-			Svg: Search,
-			title: 'Human Research',
+			
+			title: 'Mindfulness',
 		},
 		{
-			Svg: Megaphone,
-			title: 'Marketing and finance',
+			
+			title: 'Positive Communication',
 		},
 		{
-			Svg: Laptop2,
-			title: 'Design & development',
+			
+			title: 'Self-Reflection',
 		},
 		{
-			Svg: CircleDollarSign,
-			title: 'Finance management',
+			
+			title: 'Creative Expression',
 		},
 		{
-			Svg: FolderOpen,
-			title: 'Project management',
+			
+			title: 'Community Engagement',
 		},
 		{
-			Svg: MessageSquare,
-			title: 'Customer services',
+			
+			title: 'Stress Management',
 		},
 	];
 
@@ -62,7 +50,7 @@ function Category() {
 							className='flex items-center gap-2 group overflow-hidden z-[2] transition-all select-none'
 						>
 							<div>
-								<category.Svg strokeWidth={1.5} size={32} />
+								
 							</div>
 							<div className='flex'>
 								<span className='text-lg md:text-2xl lg:text-4xl font-bold'>
