@@ -7,7 +7,6 @@ import {
 	LucideIcon,
 	NotebookPen,
 	Sparkles,
-	StickyNote,
 } from "lucide-react";
 
 function Features() {
