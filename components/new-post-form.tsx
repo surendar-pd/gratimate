@@ -14,7 +14,7 @@ import { Textarea } from "./ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { z } from "zod";
 import { getAuth } from "firebase/auth";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/firebase"; // Ensure Firebase is correctly set up
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -160,7 +160,7 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 			if (sentimentResponse) {
 				// Check if the sentiment contains a positive label
 				const positiveLabel =
-					sentimentResponse[0][0].label === "POSITIVE";
+					sentimentResponse[0][0].label === "positive";
 
 				if (positiveLabel) {
 					// Get the current authenticated user
@@ -178,7 +178,7 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 								because: formData.because,
 								content: formData.content, // Use the constructed content
 								audience: formData.audience, // public, friends, self
-								timestamp: serverTimestamp(),
+								timestamp: new Date(),
 								sentimentResult: sentimentResponse[0][0].label, // Store sentiment result
 							});
 							toast.success(
@@ -230,7 +230,7 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 					/>
 
 					<Label htmlFor="because">Because</Label>
-					<Input
+					<Textarea
 						id="because"
 						value={formData.because}
 						onChange={handleInputChange}

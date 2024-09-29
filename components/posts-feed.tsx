@@ -15,6 +15,9 @@ import {
 import { db } from "@/firebase"; // Make sure you have Firebase initialized
 import Image from "next/image";
 import { format, formatDistanceToNow } from "date-fns";
+import { useRouter } from "next/navigation"; // Import the router for navigation
+import { MessageSquareHeart } from "lucide-react";
+import { Button } from "./ui/button";
 
 interface Post {
 	id: string;
@@ -31,6 +34,7 @@ const PostsFeed = () => {
 	const [posts, setPosts] = useState<(Post & { user: User })[]>([]); // Posts with user details
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
+	const router = useRouter(); // Initialize router
 
 	useEffect(() => {
 		const auth = getAuth();
@@ -140,11 +144,11 @@ const PostsFeed = () => {
 			{posts.length === 0 ? (
 				<p>No posts available.</p>
 			) : (
-				<ul className="h-full pb-[4rem]">
+				<ul className="h-full pb-[4rem] pt-4 flex flex-col gap-4">
 					{posts.map((post) => (
-						<li key={post.id} className="py-4 border-b">
+						<li key={post.id} className="border rounded-lg overflow-hidden">
 							<div className="mb-2">
-								<div className="w-full flex items-center justify-between">
+								<div className="w-full border-b flex items-center bg-slate-50 px-4 py-2 justify-between">
 									<div className="flex items-center gap-2">
 										<Image
 											src={post.user.photoURL!}
@@ -171,11 +175,22 @@ const PostsFeed = () => {
 											: "shared a story"}
 									</h3>
 								</div>
-								<div className="ml-12 mt-1 text-sm md:text-base">
+								<div className="text-sm md:text-base px-4 py-2">
 									{post.postType === "gratitude" && (
 										<p>{post.because}</p>
 									)}
 									<p>{post.content}</p>
+								</div>
+								<div className="text-right px-4 py-2">
+									<Button
+										variant={"link"}
+										size={"icon"}
+										onClick={() =>
+											router.push(`/home/feed/${post.id}`)
+										}
+									>
+										<MessageSquareHeart />
+									</Button>
 								</div>
 							</div>
 						</li>
