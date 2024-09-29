@@ -189,7 +189,7 @@ const ChatBotInterface: React.FC = () => {
 				{/* Empty div used as the reference to scroll to */}
 				<div ref={bottomRef}></div>
 			</div>
-			<div className="flex items-center p-4 bg-white fixed bottom-16 left-0 right-0 max-w-2xl mx-auto">
+			<div className="flex items-center p-4 bg-background fixed bottom-16 left-0 right-0 max-w-2xl mx-auto">
 				<Input
 					value={inputText}
 					onChange={(e) => setInputText(e.target.value)}

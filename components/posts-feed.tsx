@@ -156,7 +156,7 @@ const PostsFeed = () => {
 											</p>
 										</div>
 									</div>
-									<h3 className="font-medium text-sm">
+									<h3 className="font-medium text-xs md:text-sm">
 										{post.postType === "gratitude"
 											? `is grateful for ${post.gratefulFor}`
 											: post.postType === "journal"
@@ -164,7 +164,7 @@ const PostsFeed = () => {
 											: "shared a story"}
 									</h3>
 								</div>
-								<div className="ml-12 mt-1">
+								<div className="ml-12 mt-1 text-sm md:text-base">
 									{post.postType === "gratitude" && (
 										<p>{post.because}</p>
 									)}

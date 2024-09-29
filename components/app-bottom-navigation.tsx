@@ -1,5 +1,5 @@
 "use client";
-import { Bot, House, MessageCircleHeart, Plus, UsersRound } from "lucide-react";
+import { Bot, House, ListCheck, MessageCircleHeart, Plus, UsersRound } from "lucide-react";
 import React from "react";
 import Link from "next/link"; // Assuming you're using Next.js
 import { Button } from "./ui/button"; // Your button component
@@ -34,14 +34,14 @@ const BottomNavigation = () => {
 			link: "/home/friends",
 		},
 		{
-			title: "Forum",
-			icon: MessageCircleHeart,
-			link: "/home/forum",
+			title: "habits",
+			icon: ListCheck,
+			link: "/home/habits",
 		},
 	];
 
 	return (
-		<div className="w-full fixed bottom-0 border-t px-4 md:px-16 min-h-[4rem] bg-white flex items-center">
+		<div className="w-full fixed bottom-0 border-t px-4 md:px-16 min-h-[4rem] bg-background flex items-center">
 			<div className="flex max-w-xl mx-auto items-center justify-between w-full">
 				<TooltipProvider>
 					{bottomNav.map((item, index) => (

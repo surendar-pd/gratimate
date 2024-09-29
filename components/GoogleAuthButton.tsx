@@ -7,6 +7,7 @@ import { auth, db } from "@/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore"; // Import Firestore functions
 import { useRouter } from "next/navigation";
 
+
 const GoogleAuthButton = () => {
 	const router = useRouter();
 	const [loading, setLoading] = useState(true); // State to manage loading
@@ -29,14 +30,13 @@ const GoogleAuthButton = () => {
 						photoURL: user.photoURL,
 						createdAt: new Date(), // Add a createdAt field
 					});
-					console.log("User data saved:", user);
-					router.push("/home"); // Adjust the path as needed
+					router.replace("/home"); // Adjust the path as needed
 				} else {
-					console.log("User already exists:", user);
-					router.push("/home"); // Adjust the path as needed
+					router.replace("/home"); // Adjust the path as needed
 				}
 
 				// Redirect to home page
+				router.replace("/home"); // Adjust the path as needed
 			}
 		});
 
@@ -64,13 +64,13 @@ const GoogleAuthButton = () => {
 					photoURL: user.photoURL,
 					createdAt: new Date(), // Add a createdAt field
 				});
-				console.log("User data saved:", user);
+				router.replace("/home"); // Adjust the path as needed
 			} else {
-				console.log("User already exists:", user);
+				router.replace("/home"); // Adjust the path as needed
 			}
 
 			// Redirect to home page
-			router.push("/"); // Adjust the path as needed
+			router.replace("/home"); // Adjust the path as needed
 		} catch (error) {
 			console.error("Login failed:", error);
 		} finally {
