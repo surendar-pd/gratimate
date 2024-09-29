@@ -1,12 +1,12 @@
 import React from "react";
 import {
-	BadgeCheck,
-	Banknote,
-	FileCheck2,
-	FileEdit,
+	BookHeart,
+	HandHelping,
+	Handshake,
+	HeartHandshake,
 	LucideIcon,
-	Newspaper,
-	Search,
+	NotebookPen,
+	Sparkles,
 } from "lucide-react";
 
 function Features() {
@@ -18,40 +18,40 @@ function Features() {
 
 	const FEATURES: FeaturesData[] = [
 		{
-			Svg: Search,
-			title: "Transparency & Audit Trail",
+			Svg: BookHeart ,
+			title: "Gratitude Posts",
 			description:
-				"We take your security seriously. Our platform ensures every step of your freelancing journey is recorded in a secure, immutable ledger. You'll have a complete audit trail of your work, so you can focus on what you do best.",
+				"You can share your positive experiences and express gratitude through dedicated posts, creating a vibrant community centered around appreciation. This feature encourages you to reflect on the good in your life, fostering a supportive atmosphere where positivity thrives. By sharing your stories of gratitude, you can inspire others and strengthen your emotional well-being.",
 		},
 		{
-			Svg: FileEdit,
-			title: "User Registration & Onboarding",
+			Svg:  NotebookPen ,
+			title: "Journaling",
 			description:
-				"Becoming a part of our platform is a breeze. Register and onboard quickly to connect with freelancers and clients from all around the world. Your freelancing journey begins here!",
+				"You can document your thoughts and feelings in a private journal, encouraging deep self-reflection and personal growth. This feature allows you to explore your emotions in a safe space, helping you gain insights into your experiences. By regularly journaling, you can track your mental well-being and foster a positive mindset.",
 		},
 		{
-			Svg: FileCheck2,
-			title: "Task Creation & Assignment",
+			Svg: Handshake ,
+			title: "Community Engagement",
 			description:
-				"Create tasks, specify requirements, and find the perfect freelancers for your projects. Our platform makes task creation and assignment a simple and efficient process. Get ready to see your ideas come to life!",
+				"By connecting with friends and like-minded individuals on GratiMate, you can cultivate a supportive community that encourages positivity and personal growth. Engaging with others who share similar values helps you feel understood and motivated. This network fosters a sense of belonging, allowing you to uplift each other and celebrate the journey toward emotional well-being together.",
 		},
 		{
-			Svg: Newspaper,
-			title: "Smart Contract Creation",
+			Svg: Sparkles ,
+			title: "Sentiment Analysis",
 			description:
-				"Our platform simplifies contract creation. Establish clear terms, milestones, and payments with the security of blockchain technology. Your agreements are locked in, ensuring trust and fairness.",
+				"GratiMate utilizes AI to analyze your posts, ensuring a positive and uplifting environment. If you share something negative, the AI detects this and redirects you to the therapeutic chatbot, which offers support and encouragement. This process helps maintain a space where positivity thrives, allowing you to focus on gratitude and personal growth.",
 		},
 		{
-			Svg: BadgeCheck,
-			title: "Task Completion Verification",
+			Svg: HeartHandshake ,
+			title: "Therapy Mate",
 			description:
-				"Ensure the quality of work with our straightforward task completion verification process. Verify project milestones with ease and confidence, giving you peace of mind throughout the project.",
+				"A helpful therapeutic assistant powered by an LLM is available to provide support and share motivational quotes aimed at boosting your mood. Whenever you’re feeling down or need a bit of encouragement, the chatbot interacts with you, offering uplifting messages designed to help shift your perspective and foster emotional resilience.",
 		},
 		{
-			Svg: Banknote,
-			title: "Instant Payment Release",
+			Svg: HandHelping ,
+			title: "Personalized Nudges",
 			description:
-				"Say goodbye to delayed payments. Our platform enables instant payment release upon task completion. No more waiting – get paid promptly for your hard work!",
+				"You receive personalized reminders and prompts designed to inspire daily gratitude practices, making it easier for you to cultivate a positive mindset. These tailored nudges encourage you to take a moment each day to reflect on what you’re grateful for, fostering a sense of appreciation and mindfulness in your life.",
 		},
 	];
 
@@ -63,14 +63,10 @@ function Features() {
 			<div className="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
 				<div className="mx-auto flex flex-col gap-4 max-w-xl text-center">
 					<h2 className="text-3xl lg:text-5xl font-bold text-slate-900 dark:text-white">
-						Kickstart your Freelancing
+					Step into a World of Positivity
 					</h2>
 					<p className="my-4 text-slate-500 dark:text-slate-400">
-						Jump into the World of Opportunities: Begin your
-						freelancing journey on our platform. Explore a wide
-						range of projects waiting for your skills and expertise.
-						It&apos;s time to kickstart your freelancing career and
-						unlock new horizons!
+					Begin your journey with GratiMate. Discover an enriching space dedicated to gratitude and emotional growth. It's time to enhance your well-being and unlock your potential!
 					</p>
 				</div>
 				<div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -80,7 +76,7 @@ function Features() {
 							key={idx}
 						>
 							<div className="flex gap-2 items-center">
-								<feat.Svg
+							<feat.Svg
 									strokeWidth={1.5}
 									className="text-blue-600 dark:text-blue-400"
 									size={36}

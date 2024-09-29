@@ -67,6 +67,7 @@ function Faqs() {
 				"Can I hire freelancers for long-term projects on DeWorks?",
 			answer: "Yes, you can use DeWorks for both short-term and long-term projects. It's a versatile platform that accommodates various project durations and scopes.",
 		},
+
 	];
 
 	return (
