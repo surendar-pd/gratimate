@@ -80,24 +80,10 @@ function Footer() {
 							</div>
 						</div>
 					</div>
-					<div className="w-full p-2 md:p-4">
+					<div className="w-full px-2 md:px-4">
 						<div className="flex flex-col items-center justify-start md:flex-row md:justify-between">
-							<div className="mb-4 flex flex-col items-stretch justify-center text-center md:flex-row">
-								<Link
-									href="/terms"
-									className="py-2 text-[14px] text-slate-300 md:mr-[24px]"
-								>
-									Terms and Conditions
-								</Link>
-								<Link
-									href="/privacy"
-									className="py-2 text-[14px] text-slate-300 md:mr-[24px]"
-								>
-									Privacy Policy
-								</Link>
-							</div>
-							<p className="mb-4 text-[12px] text-slate-300">
-								Copyright &copy; 2023 DeWorks
+							<p className="text-[12px] text-slate-300 pt-4">
+								Copyright &copy; 2024 Gratimate
 							</p>
 						</div>
 					</div>

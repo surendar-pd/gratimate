@@ -45,6 +45,7 @@ const PostDetail = ({ params }: { params: { id: string } }) => {
 	const { id } = params;
 	const [post, setPost] = useState<Post | null>(null);
 	const [user, setUser] = useState<User | null>(null);
+	const [postUser, setPostUser] = useState<User | null>(null);
 	const [comment, setComment] = useState("");
 	const [comments, setComments] = useState<Comment[]>([]);
 
@@ -56,7 +57,8 @@ const PostDetail = ({ params }: { params: { id: string } }) => {
 			const postData = postSnap.data() as Post;
 			setPost(postData);
 			// Fetch user details once post is retrieved
-			fetchUserDetails(postData.uid);
+			const postUser = await fetchUserDetails(postData.uid);
+			setPostUser(postUser);
 		}
 	};
 
@@ -75,7 +77,7 @@ const PostDetail = ({ params }: { params: { id: string } }) => {
 	// Fetch comments in real-time
 	const fetchComments = () => {
 		const commentsRef = collection(db, "posts", id, "comments");
-		const q = query(commentsRef, orderBy("timestamp", "asc"));
+		const q = query(commentsRef, orderBy("timestamp", "desc"));
 
 		const unsubscribe = onSnapshot(q, async (snapshot) => {
 			const commentsList: Comment[] = await Promise.all(
@@ -152,13 +154,15 @@ const PostDetail = ({ params }: { params: { id: string } }) => {
 					<div className="mb-2">
 						<div className="w-full border-b flex items-center bg-slate-50 px-4 py-2 justify-between">
 							<div className="flex items-center gap-2">
-								<Image
-									src={user.photoURL}
-									alt={user.displayName}
-									width={100}
-									height={100}
-									className="w-10 h-10 rounded-full"
-								/>
+								{postUser && (
+									<Image
+										src={postUser.photoURL}
+										alt={postUser.displayName}
+										width={100}
+										height={100}
+										className="w-10 h-10 rounded-full"
+									/>
+								)}
 								<div>
 									<h3 className="text-lg font-medium capitalize">
 										{user?.displayName}
@@ -181,7 +185,7 @@ const PostDetail = ({ params }: { params: { id: string } }) => {
 									: "shared a story"}
 							</h3>
 						</div>
-						<div className="text-sm md:text-base px-4 py-2">
+						<div className="text-sm md:text-base px-4 pt-2 pb-1">
 							{post.postType === "gratitude" && (
 								<p>{post.because}</p>
 							)}
@@ -226,7 +230,7 @@ const PostDetail = ({ params }: { params: { id: string } }) => {
 										<p className="font-semibold">
 											{comment.user.displayName}
 										</p>
-										<p className="text-sm text-gray-600">
+										<p className="text-xs text-slate-500">
 											{comment.timestamp
 												.toDate()
 												.toLocaleString()}

@@ -11,7 +11,7 @@ type NavdataCollection = ReadonlyArray<Navdata>;
 const COMMON_NAVIGATION: NavdataCollection = [
 	{
 		title: 'Home',
-		link: '/',
+		link: '#',
 		target: '_self',
 	},
 	{

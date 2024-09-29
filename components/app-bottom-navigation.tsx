@@ -48,7 +48,7 @@ const BottomNavigation = () => {
 							>
 								<Link scroll={false} href={item.link} passHref>
 									<item.icon size={20} />
-									<p className="text-xs">{item.title}</p>
+									<p className="text-xs hidden md:block">{item.title}</p>
 								</Link>
 							</Button>
 						) : (

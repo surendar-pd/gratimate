@@ -144,7 +144,7 @@ const PostsFeed = () => {
 			{posts.length === 0 ? (
 				<p>No posts available.</p>
 			) : (
-				<ul className="h-full pb-[4rem] pt-4 flex flex-col gap-4">
+				<ul className="h-full pb-[6rem] pt-4 flex flex-col gap-4">
 					{posts.map((post) => (
 						<li key={post.id} className="border rounded-lg overflow-hidden">
 							<div className="mb-2">

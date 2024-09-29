@@ -10,7 +10,11 @@ const Hero = () => {
 						Embark on Your Path to
 						<WordRotate
 							className="text-blue-500"
-							words={["Positivity", "Greatfulness"]}
+							words={[
+								"Positivity",
+								"Greatfulness",
+								"Mindfulness",
+							]}
 						/>
 						with GratiMate!
 					</h1>

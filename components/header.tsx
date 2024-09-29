@@ -9,7 +9,7 @@ const Header = ({
 }) => {
 	return (
 		<div className="flex items-center justify-between py-4">
-			<h1 className="text-xl md:text-2xl lg:text-3xl font-semibold">{text}</h1>
+			<h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold">{text}</h1>
 			{component && component}
 		</div>
 	);

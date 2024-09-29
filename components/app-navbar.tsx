@@ -8,7 +8,7 @@ const AppNavbar = () => {
 		<nav className="w-full fixed z-50 bg-background top-0 flex justify-between items-center min-h-[4rem] px-4 md:px-16  border-b">
 			<div>
 				<Link href={"/"}>
-					<h1 className="text-2xl font-bold">Grati<span className="font-normal">mate</span></h1>
+					<h1 className="text-3xl font-bold">Grati<span className="font-normal">mate</span></h1>
 				</Link>
 			</div>
 			<div>

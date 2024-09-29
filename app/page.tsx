@@ -3,7 +3,6 @@ import Faqs from "@/components/home/home/Faqs";
 import Features from "@/components/home/home/Features";
 import Hero from "@/components/home/home/Hero";
 import Humans from "@/components/home/home/Humans";
-import Footer from "@/components/layouts/Footer";
 import Header from "@/components/layouts/Header";
 
 export default function Home() {
@@ -16,7 +15,7 @@ export default function Home() {
 				<Features />
 				<Category />
 				<Faqs />
-				<Footer />
+				{/* <Footer /> */}
 			</main>
 		</>
 	);

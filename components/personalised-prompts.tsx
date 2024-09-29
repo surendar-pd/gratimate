@@ -110,7 +110,7 @@ const GratitudePrompts = () => {
 			{loading ? (
 				<p>Loading...</p>
 			) : (
-				<div className="flex flex-col gap-3 my-2">
+				<div className="flex flex-col gap-3 mb-2">
 					{Object.values(JSON.parse(promptAndChallenge || "{}")).map(
 						(item, idx) => (
 							<div
@@ -120,7 +120,7 @@ const GratitudePrompts = () => {
 								<p className="text-base bg-white p-4">
 									{item as string}
 								</p>
-								<p className="font-medium bg-slate-50 border-t p-4">
+								<p className="font-medium bg-blue-100 border-t p-4">
 									{idx === 0
 										? "Daily Gratitude Prompt"
 										: "Weekly Challenge"}
