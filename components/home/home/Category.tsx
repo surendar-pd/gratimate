@@ -41,7 +41,7 @@ function Category() {
 	];
 
 	return (
-		<section className='py-[50px] md:py-[80px]' id=''>
+		<section className='py-[50px]' id=''>
 			<div className='mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:py-16 lg:px-8'>
 				<div className='flex items-center justify-center flex-wrap gap-8 '>
 					{CATEGORY.map((category, idx) => (
