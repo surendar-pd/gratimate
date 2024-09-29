@@ -6,7 +6,7 @@ import {
 	collection,
 	query,
 	where,
-	getDocs,
+	onSnapshot,
 	doc,
 	getDoc,
 	Timestamp,
@@ -34,9 +34,9 @@ const PostsFeed = () => {
 
 	useEffect(() => {
 		const auth = getAuth();
-		const unsubscribe = onAuthStateChanged(auth, async (user) => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
-				await fetchFriendsAndPosts(user.uid);
+				fetchFriendsAndPosts(user.uid);
 			} else {
 				// Handle signed-out state if needed
 			}
@@ -58,48 +58,55 @@ const PostsFeed = () => {
 		}
 	};
 
-	const fetchFriendsAndPosts = async (uid: string) => {
+	const fetchFriendsAndPosts = (uid: string) => {
 		setLoading(true);
 		try {
 			// Fetch the logged-in user's friends
 			const userRef = doc(db, "users", uid);
-			const userSnap = await getDoc(userRef);
-			const userData = userSnap.data();
-			const userFriends = userData?.friends || [];
+			getDoc(userRef).then(async (userSnap) => {
+				const userData = userSnap.data();
+				const userFriends = userData?.friends || [];
 
-			// Fetch all posts that are either public or posted by friends
-			const postsRef = collection(db, "posts");
-			const q = query(
-				postsRef,
-				where("audience", "in", ["public", "friends"]),
-				orderBy("timestamp", "desc")
-			);
-			const querySnapshot = await getDocs(q);
+				// Listen for real-time updates on posts
+				const postsRef = collection(db, "posts");
+				const q = query(
+					postsRef,
+					where("audience", "in", ["public", "friends"]),
+					orderBy("timestamp", "desc")
+				);
+				const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+					const postsList = await Promise.all(
+						querySnapshot.docs.map(async (docSnapshot) => {
+							const postData = docSnapshot.data() as Post;
+							const user = await fetchUserDetails(postData.uid); // Fetch user details
+							return {
+								...postData,
+								id: docSnapshot.id,
+								user: user!,
+							};
+						})
+					);
 
-			const postsList = await Promise.all(
-				querySnapshot.docs.map(async (docSnapshot) => {
-					const postData = docSnapshot.data() as Post;
-					const user = await fetchUserDetails(postData.uid); // Fetch user details
-					return {
-						...postData,
-						id: docSnapshot.id,
-						user: user!,
-					};
-				})
-			);
+					// Filter the posts that are either public or from friends
+					const filteredPosts = postsList.filter(
+						(post) =>
+							post.audience === "public" ||
+							userFriends.includes(post.uid) ||
+							post.uid === uid
+					);
 
-			// Filter the posts that are either public or from friends
-			const filteredPosts = postsList.filter(
-				(post) =>
-					post.audience === "public" || userFriends.includes(post.uid) || post.uid === uid
-			);
+					setPosts(filteredPosts);
+					setLoading(false); // Set loading to false after fetching posts
+				});
 
-			setPosts(filteredPosts);
+				// Cleanup function to unsubscribe from the snapshot listener
+				return () => unsubscribe();
+			});
 		} catch (error) {
 			setError("Error fetching posts.");
 			console.error(error);
+			setLoading(false);
 		}
-		setLoading(false);
 	};
 
 	if (loading) {
@@ -119,11 +126,11 @@ const PostsFeed = () => {
 		return (
 			<span
 				title={format(
-					(post.timestamp as unknown as Timestamp).toDate(),
+					(post?.timestamp as unknown as Timestamp).toDate(),
 					"MMMM d, yyyy h:mm:ss aa"
 				)}
 			>
-				{getRelativeTime(post.timestamp as unknown as Timestamp)}
+				{getRelativeTime(post?.timestamp as unknown as Timestamp)}
 			</span>
 		);
 	};
