@@ -23,9 +23,10 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { RotateCw } from "lucide-react";
 import { getAuth } from "firebase/auth"; // Firebase auth
-import { getFirestore, addDoc, collection } from "firebase/firestore"; // Firestore
+import { addDoc, collection } from "firebase/firestore"; // Firestore
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
+import { db } from "@/firebase";
 
 const formSchema = z.object({
 	name: z
@@ -45,10 +46,6 @@ const NewHabitDialog = () => {
 		},
 	});
 
-	// Firebase Firestore instance
-	const db = getFirestore();
-
-	// Function to create a new habit in Firestore
 	async function createHabit(userId: string, habitName: string) {
 		const habitRef = collection(db, "habits"); // reference to the habits collection
 		const habit = await addDoc(habitRef, {
@@ -99,7 +96,7 @@ const NewHabitDialog = () => {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button>Create New Habit</Button>
+				<Button size={"sm"} variant={"outline"}>Create New Habit</Button>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>

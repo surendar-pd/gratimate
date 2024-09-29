@@ -1,5 +1,5 @@
 "use client";
-import { Bot, House, ListCheck, MessageCircleHeart, Plus, UsersRound } from "lucide-react";
+import { Bot, House, ListCheck, Plus, UsersRound } from "lucide-react";
 import React from "react";
 import Link from "next/link"; // Assuming you're using Next.js
 import { Button } from "./ui/button"; // Your button component
@@ -34,7 +34,7 @@ const BottomNavigation = () => {
 			link: "/home/friends",
 		},
 		{
-			title: "habits",
+			title: "Habits",
 			icon: ListCheck,
 			link: "/home/habits",
 		},

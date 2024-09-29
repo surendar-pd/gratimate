@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 const GratitudePrompts = () => {
 	const [promptAndChallenge, setPromptAndChallenge] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
-	const [userId, setUserId] = useState<string | null>(null);
 
 	// Function to fetch user's own posts
 	async function fetchUserPosts(userId: string) {
@@ -97,11 +96,9 @@ const GratitudePrompts = () => {
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
-				setUserId(user.uid); // Set the logged-in user's uid
 				fetchPromptsAndChallenges(user.uid); // Fetch posts and personalized prompts
 			} else {
 				// Handle user not logged in
-				setUserId(null);
 			}
 		});
 
@@ -110,14 +107,25 @@ const GratitudePrompts = () => {
 
 	return (
 		<div>
-			<h2>Daily Gratitude Prompt & Weekly Challenge</h2>
 			{loading ? (
 				<p>Loading...</p>
 			) : (
-				<div className="flex flex-col gap-1">
+				<div className="flex flex-col gap-3 my-2">
 					{Object.values(JSON.parse(promptAndChallenge || "{}")).map(
 						(item, idx) => (
-							<p className="bg-gray-100 p-4 rounded-lg" key={idx}>{item as string}</p>
+							<div
+								className="border flex flex-col gap-2 rounded-lg overflow-hidden"
+								key={idx}
+							>
+								<p className="text-base bg-white p-4">
+									{item as string}
+								</p>
+								<p className="font-medium bg-slate-50 border-t p-4">
+									{idx === 0
+										? "Daily Gratitude Prompt"
+										: "Weekly Challenge"}
+								</p>
+							</div>
 						)
 					)}
 				</div>

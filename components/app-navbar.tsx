@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 import { CircleUserRound } from "lucide-react";
 import { Button } from "./ui/button";
-import { getAuth, signOut } from "firebase/auth";
 
 const AppNavbar = () => {
 	return (

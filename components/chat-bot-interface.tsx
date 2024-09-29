@@ -150,7 +150,6 @@ const ChatBotInterface: React.FC = () => {
 								: "self-start"
 						}`}
 					>
-						{/* User's or bot's profile photo */}
 						<Image
 							width={40}
 							height={40}
@@ -158,28 +157,24 @@ const ChatBotInterface: React.FC = () => {
 								message.sender === "user"
 									? currentUser?.photoURL ||
 									  "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg" // User profile photo or default
-									: "/bot-avatar.png" // Bot avatar
+									: "/assets/logo.png"
 							}
 							alt={`${message.sender} avatar`}
-							className={`w-8 h-8 rounded-full ${
-								message.sender === "user" ? "ml-2" : "mr-2"
+							className={`w-8 h-8 border rounded-full ${
+								message.sender === "user" ? "ml-2" : "lg:mr-2"
 							}`}
 						/>
-
-						{/* Message content */}
-						<div
-							className={`p-3 rounded-lg max-w-sm ${
+						<p
+							className={`p-3 text-sm rounded-lg max-w-sm ${
 								message.sender === "user"
 									? "bg-blue-500 text-white"
-									: "bg-gray-200 text-black"
+									: "bg-slate-100 text-black"
 							}`}
 						>
 							{message.text}
-						</div>
+						</p>
 					</div>
 				))}
-
-				{/* Display loading indicator when bot is thinking */}
 				{botThinking && (
 					<div className="self-start bg-gray-200 text-black p-3 rounded-lg mb-16">
 						Bot is thinking...

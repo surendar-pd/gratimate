@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 const querySentiment = async (content: string) => {
 	const response = await fetch(
-		"https://api-inference.huggingface.co/models/siebert/sentiment-roberta-large-english",
+		"https://api-inference.huggingface.co/models/cardiffnlp/twitter-roberta-base-sentiment-latest",
 		{
 			method: "POST",
 			headers: {
