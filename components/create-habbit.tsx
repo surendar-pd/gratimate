@@ -22,8 +22,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { RotateCw } from "lucide-react";
-import { getAuth } from "firebase/auth"; // Firebase auth
-import { addDoc, collection } from "firebase/firestore"; // Firestore
+import { getAuth } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { db } from "@/firebase";
@@ -47,7 +47,7 @@ const NewHabitDialog = () => {
 	});
 
 	async function createHabit(userId: string, habitName: string) {
-		const habitRef = collection(db, "habits"); // reference to the habits collection
+		const habitRef = collection(db, "habits");
 		const habit = await addDoc(habitRef, {
 			name: habitName,
 			userId,
@@ -62,27 +62,23 @@ const NewHabitDialog = () => {
 			completed: false,
 		});
 	}
-
-	// Handle form submission
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		setSubmitting(true);
 		try {
-			// Get current user from Firebase Auth
 			const auth = getAuth();
 			const user = auth.currentUser;
 			if (!user) {
 				toast.error("You must be logged in to create a habit.");
-				router.push("/"); // Redirect to login if not authenticated
+				router.push("/");
 				return;
 			}
 
-			// Get user's ID and create habit
 			const userId = user.uid;
 			await createHabit(userId, values.name);
 			setOpen(false);
 			toast.success("Habit created successfully!");
-			form.reset(); // Reset form after successful submission
-			router.push("/home/habits"); // Redirect to app dashboard
+			form.reset(); 
+			router.push("/home/habits");
 		} catch (error) {
 			setOpen(false);
 			console.error("Error creating habit:", error);

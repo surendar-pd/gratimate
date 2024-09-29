@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-// Import necessary Firebase modules
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import {
@@ -45,7 +44,7 @@ const AddNewFriend: React.FC = () => {
 	const [error, setError] = useState("");
 	const isDesktop = typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
 	const [currentUser, setCurrentUser] = useState<string>("");
-	const [requestedUsers, setRequestedUsers] = useState<RequestedUser[]>([]); // Track requested users with status
+	const [requestedUsers, setRequestedUsers] = useState<RequestedUser[]>([]);
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -54,7 +53,6 @@ const AddNewFriend: React.FC = () => {
 				setCurrentUser(uid);
 				fetchFriendRequests(uid);
 			} else {
-				// Handle signed-out state
 			}
 		});
 		return () => unsubscribe();
@@ -81,7 +79,7 @@ const AddNewFriend: React.FC = () => {
 				id: doc.data().to,
 				status: doc.data().status,
 			}));
-			setRequestedUsers(requestsList); // Set the requested users with status
+			setRequestedUsers(requestsList);
 		} catch (error) {
 			console.error("Error fetching friend requests: ", error);
 		}
@@ -104,7 +102,7 @@ const AddNewFriend: React.FC = () => {
 			const userList = querySnapshot.docs.map((doc) => ({
 				id: doc.id,
 				...doc.data(),
-			})) as User[]; // Cast to User type
+			})) as User[];
 			setUsers(userList);
 		} catch (err) {
 			setError("Failed to fetch users.");
@@ -114,24 +112,23 @@ const AddNewFriend: React.FC = () => {
 	};
 
 	const handleAddFriend = async (userId: string) => {
-		// Check if user already requested
 		const existingRequest = requestedUsers.find(
 			(request) => request.id === userId
 		);
 		if (existingRequest) {
-			return; // Do not send a request if it's already requested
+			return;
 		}
 
 		try {
 			await addDoc(collection(db, "friend_requests"), {
 				from: currentUser,
 				to: userId,
-				status: "pending", // Set status to pending
+				status: "pending",
 			});
 			setRequestedUsers((prev) => [
 				...prev,
 				{ id: userId, status: "pending" },
-			]); // Add to requested users
+			]);
 			toast.success("Friend request sent successfully.");
 			setOpen(false);
 		} catch (error) {

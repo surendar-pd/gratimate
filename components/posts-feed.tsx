@@ -12,10 +12,10 @@ import {
 	Timestamp,
 	orderBy,
 } from "firebase/firestore";
-import { db } from "@/firebase"; // Make sure you have Firebase initialized
+import { db } from "@/firebase"; 
 import Image from "next/image";
 import { format, formatDistanceToNow } from "date-fns";
-import { useRouter } from "next/navigation"; // Import the router for navigation
+import { useRouter } from "next/navigation"; 
 import { MessageSquareHeart } from "lucide-react";
 import { Button } from "./ui/button";
 
@@ -26,15 +26,15 @@ interface Post {
 	because?: string;
 	content: string;
 	audience: string;
-	uid: string; // User ID of who posted
+	uid: string;
 	timestamp: Date;
 }
 
 const PostsFeed = () => {
-	const [posts, setPosts] = useState<(Post & { user: User })[]>([]); // Posts with user details
+	const [posts, setPosts] = useState<(Post & { user: User })[]>([]); 
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
-	const router = useRouter(); // Initialize router
+	const router = useRouter(); 
 
 	useEffect(() => {
 		const auth = getAuth();
@@ -42,7 +42,6 @@ const PostsFeed = () => {
 			if (user) {
 				fetchFriendsAndPosts(user.uid);
 			} else {
-				// Handle signed-out state if needed
 			}
 		});
 		return () => unsubscribe();
@@ -53,7 +52,7 @@ const PostsFeed = () => {
 			const userRef = doc(db, "users", uid);
 			const userSnap = await getDoc(userRef);
 			if (userSnap.exists()) {
-				return { uid, ...userSnap.data() } as User; // Return the user data along with UID
+				return { uid, ...userSnap.data() } as User; 
 			}
 			return null;
 		} catch (error) {
@@ -65,13 +64,11 @@ const PostsFeed = () => {
 	const fetchFriendsAndPosts = (uid: string) => {
 		setLoading(true);
 		try {
-			// Fetch the logged-in user's friends
 			const userRef = doc(db, "users", uid);
 			getDoc(userRef).then(async (userSnap) => {
 				const userData = userSnap.data();
 				const userFriends = userData?.friends || [];
 
-				// Listen for real-time updates on posts
 				const postsRef = collection(db, "posts");
 				const q = query(
 					postsRef,
@@ -82,7 +79,7 @@ const PostsFeed = () => {
 					const postsList = await Promise.all(
 						querySnapshot.docs.map(async (docSnapshot) => {
 							const postData = docSnapshot.data() as Post;
-							const user = await fetchUserDetails(postData.uid); // Fetch user details
+							const user = await fetchUserDetails(postData.uid); 
 							return {
 								...postData,
 								id: docSnapshot.id,
@@ -91,7 +88,6 @@ const PostsFeed = () => {
 						})
 					);
 
-					// Filter the posts that are either public or from friends
 					const filteredPosts = postsList.filter(
 						(post) =>
 							post.audience === "public" ||
@@ -100,10 +96,9 @@ const PostsFeed = () => {
 					);
 
 					setPosts(filteredPosts);
-					setLoading(false); // Set loading to false after fetching posts
+					setLoading(false); 
 				});
 
-				// Cleanup function to unsubscribe from the snapshot listener
 				return () => unsubscribe();
 			});
 		} catch (error) {

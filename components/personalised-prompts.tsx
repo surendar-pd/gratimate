@@ -8,7 +8,6 @@ const GratitudePrompts = () => {
 	const [promptAndChallenge, setPromptAndChallenge] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 
-	// Function to fetch user's own posts
 	async function fetchUserPosts(userId: string) {
 		const userPosts: string[] = [];
 		const postsRef = collection(db, "posts", userId, "userPosts");
@@ -24,7 +23,6 @@ const GratitudePrompts = () => {
 		return userPosts;
 	}
 
-	// Function to fetch friends' posts
 	async function fetchFriendsPosts(friendsIds: string[]) {
 		const friendsPosts: string[] = [];
 		for (const friendId of friendsIds) {
@@ -46,10 +44,9 @@ const GratitudePrompts = () => {
 		return friendsPosts;
 	}
 
-	// Fetch user's friends' uids from their profile or another document
 	async function fetchUserFriends(userId: string) {
 		const friendsIds: string[] = [];
-		const userDocRef = doc(db, "users", userId); // Assuming friends data is in the users collection
+		const userDocRef = doc(db, "users", userId);
 		const userSnapshot = await getDoc(userDocRef);
 
 		if (userSnapshot.exists()) {
@@ -61,23 +58,20 @@ const GratitudePrompts = () => {
 		return friendsIds;
 	}
 
-	// Function to fetch personalized gratitude prompts and challenges
 	const fetchPromptsAndChallenges = async (userId: string) => {
 		setLoading(true);
 		try {
-			// Fetch user's posts and their friends' posts
 			const userPosts = await fetchUserPosts(userId);
 			const friendsIds = await fetchUserFriends(userId);
 			const friendsPosts = await fetchFriendsPosts(friendsIds);
 
-			// Send the posts data to the backend API
 			const response = await fetch("/api/personalize", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					sessionId: "user-session-id", // Unique user session ID (if you have it)
+					sessionId: "user-session-id", 
 					userPosts,
 					friendsPosts,
 				}),
@@ -92,17 +86,15 @@ const GratitudePrompts = () => {
 		}
 	};
 
-	// Fetch current logged-in user's ID and call fetchPromptsAndChallenges
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
-				fetchPromptsAndChallenges(user.uid); // Fetch posts and personalized prompts
+				fetchPromptsAndChallenges(user.uid); 
 			} else {
-				// Handle user not logged in
 			}
 		});
 
-		return () => unsubscribe(); // Cleanup subscription
+		return () => unsubscribe(); 
 	}, []);
 
 	return (

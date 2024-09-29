@@ -27,41 +27,36 @@ const ChatBotInterface: React.FC = () => {
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [inputText, setInputText] = useState("");
 	const [isSending, setIsSending] = useState(false);
-	const [botThinking, setBotThinking] = useState(false); // Loading state for bot
+	const [botThinking, setBotThinking] = useState(false);
 	const chatContainerRef = useRef<HTMLDivElement>(null);
-	const bottomRef = useRef<HTMLDivElement>(null); // Ref to scroll to the bottom
+	const bottomRef = useRef<HTMLDivElement>(null);
 	const [currentUser, setCurrentUser] = useState<User | null>(null);
 	const searchParams = useSearchParams();
 
-	// Track the current authenticated user
 	useEffect(() => {
 		const auth = getAuth();
 		const unsubscribe = auth.onAuthStateChanged((user) => {
 			setCurrentUser(user);
 
-			// Check if there's a prompt in the URL
 			const prompt = searchParams.get("prompt");
 			if (prompt && prompt.length > 0) {
-				setInputText(prompt); // Set the input text to the prompt
+				setInputText(prompt); 
 			}
 		});
 		return () => unsubscribe();
 	}, [searchParams]);
 
-	// Trigger handleSendMessage only when a prompt is provided via searchParams
 	useEffect(() => {
 		const prompt = searchParams.get("prompt");
 
-		// If there's a prompt and the input text matches it, trigger handleSendMessage
 		if (prompt && prompt.length > 0 && inputText === prompt) {
-			handleSendMessage(); // Send the message when the prompt is set
+			handleSendMessage(); 
 			if (typeof window !== "undefined") {
-				window.history.replaceState(null, "", "/home/chatbot"); // Clear prompt from URL
+				window.history.replaceState(null, "", "/home/chatbot"); 
 			}
 		}
 	}, [inputText, searchParams]);
 
-	// Fetch chat messages from Firestore
 	useEffect(() => {
 		if (currentUser) {
 			const chatRef = collection(
@@ -84,7 +79,6 @@ const ChatBotInterface: React.FC = () => {
 		}
 	}, [currentUser]);
 
-	// Scroll to the bottom when messages are updated or page is refreshed
 	useEffect(() => {
 		if (bottomRef.current) {
 			bottomRef.current.scrollIntoView({ behavior: "smooth" });
@@ -97,7 +91,6 @@ const ChatBotInterface: React.FC = () => {
 		setIsSending(true);
 
 		try {
-			// Store user's message first
 			const messageData = {
 				text: inputText,
 				sender: "user" as const,
@@ -110,16 +103,12 @@ const ChatBotInterface: React.FC = () => {
 			);
 			await addDoc(messageRef, messageData);
 
-			// Clear the input field immediately after the message is sent
 			setInputText("");
 
-			// Show loading indicator while bot is thinking
 			setBotThinking(true);
 
-			// Get chatbot response
 			const response = await getChatbotResponse(inputText);
 
-			// Store bot's response
 			const botMessage = {
 				text: response,
 				sender: "bot" as const,
@@ -131,7 +120,7 @@ const ChatBotInterface: React.FC = () => {
 			console.error("Error sending message: ", error);
 		} finally {
 			setIsSending(false);
-			setBotThinking(false); // Bot finished thinking
+			setBotThinking(false);
 		}
 	}, [inputText, isSending, currentUser]);
 
@@ -139,7 +128,7 @@ const ChatBotInterface: React.FC = () => {
 		<div className="w-full h-full flex flex-col">
 			<div
 				className="flex-grow h-full flex-1 overflow-y-auto p-4 space-y-4 pb-40"
-				ref={chatContainerRef} // Ref to track the chat container
+				ref={chatContainerRef}
 			>
 				{messages.map((message) => (
 					<div
@@ -180,8 +169,6 @@ const ChatBotInterface: React.FC = () => {
 						Bot is thinking...
 					</div>
 				)}
-
-				{/* Empty div used as the reference to scroll to */}
 				<div ref={bottomRef}></div>
 			</div>
 			<div className="flex items-center p-4 bg-background fixed bottom-16 left-0 right-0 max-w-2xl mx-auto">
@@ -206,7 +193,6 @@ const ChatBotInterface: React.FC = () => {
 
 export default ChatBotInterface;
 
-// This function interacts with the chatbot API
 const getChatbotResponse = async (message: string): Promise<string> => {
 	try {
 		const response = await fetch("/api/chatbot", {

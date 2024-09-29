@@ -10,7 +10,7 @@ import {
 	Timestamp,
 	orderBy,
 } from "firebase/firestore";
-import { db } from "@/firebase"; // Make sure you have Firebase initialized
+import { db } from "@/firebase"; 
 import Image from "next/image";
 import { format, formatDistanceToNow } from "date-fns";
 
@@ -21,12 +21,12 @@ interface Post {
 	because?: string;
 	content: string;
 	audience: string;
-	uid: string; // User ID of who posted
+	uid: string;
 	timestamp: Date;
 }
 
 const PersonalFeed = () => {
-	const [posts, setPosts] = useState<Post[]>([]); // Posts without user details (personal feed)
+	const [posts, setPosts] = useState<Post[]>([]); 
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
 	const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -38,7 +38,6 @@ const PersonalFeed = () => {
 				setCurrentUser(user);
 				await fetchUserPosts(user.uid);
 			} else {
-				// Handle signed-out state if needed
 			}
 		});
 		return () => unsubscribe();
@@ -47,12 +46,11 @@ const PersonalFeed = () => {
 	const fetchUserPosts = async (uid: string) => {
 		setLoading(true);
 		try {
-			// Query to fetch the current user's posts
 			const postsRef = collection(db, "posts");
 			const q = query(
 				postsRef,
-				where("uid", "==", uid), // Fetch posts only from the current user
-				orderBy("timestamp", "desc") // Order by most recent
+				where("uid", "==", uid), 
+				orderBy("timestamp", "desc") 
 			);
 			const querySnapshot = await getDocs(q);
 
@@ -114,7 +112,7 @@ const PersonalFeed = () => {
 										src={
 											currentUser?.photoURL ||
 											"https://img.icons8.com/ios-filled/100/000000/user-male-circle.png"
-										} // Use user's photoURL
+										}
 										alt={currentUser?.displayName || "User"}
 										width={100}
 										height={100}

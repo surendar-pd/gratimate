@@ -15,14 +15,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { z } from "zod";
 import { getAuth } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "@/firebase"; // Ensure Firebase is correctly set up
+import { db } from "@/firebase";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 type NewPostFormProps = React.ComponentProps<"form"> & {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-// Define the validation schema using Zod
 const postSchema = z.object({
 	postType: z.enum(["gratitude", "journal", "story"], {
 		required_error: "Post type is required",
@@ -128,7 +127,7 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ content }), // Send the content for analysis
+				body: JSON.stringify({ content }), 
 			});
 
 			if (!response.ok) {
@@ -139,7 +138,7 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 			return sentimentResult;
 		} catch (error) {
 			console.error("Error:", error);
-			setFormError("Failed to analyze sentiment."); // Show error to the user
+			setFormError("Failed to analyze sentiment."); 
 		}
 	};
 
@@ -148,38 +147,33 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 		if (isFormValid) {
 			setIsAnalyzing(true);
 
-			// Create the content based on postType
 			let contentToAnalyze = formData.content;
 
-			// If post type is "gratitude", set the content as a combination of "gratefulFor" and "because"
 			if (formData.postType === "gratitude") {
 				contentToAnalyze = `I'm grateful for ${formData.gratefulFor} because ${formData.because}`;
 			}
 
 			const sentimentResponse = await querySentiment(contentToAnalyze);
 			if (sentimentResponse) {
-				// Check if the sentiment contains a positive label
 				const positiveLabel =
 					sentimentResponse[0][0].label === "positive";
 
 				if (positiveLabel) {
-					// Get the current authenticated user
 					const auth = getAuth();
 					const currentUser = auth.currentUser;
 
 					if (currentUser) {
-						// If the sentiment is positive, store the post
 						try {
 							const postRef = collection(db, "posts");
 							await addDoc(postRef, {
-								uid: currentUser.uid, // ID of the user who posted
+								uid: currentUser.uid,
 								postType: formData.postType,
 								gratefulFor: formData.gratefulFor,
 								because: formData.because,
-								content: formData.content, // Use the constructed content
-								audience: formData.audience, // public, friends, self
+								content: formData.content, 
+								audience: formData.audience, 
 								timestamp: new Date(),
-								sentimentResult: sentimentResponse[0][0].label, // Store sentiment result
+								sentimentResult: sentimentResponse[0][0].label,
 							});
 							toast.success(
 								"Post has been created successfully!"
@@ -217,8 +211,6 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 					</SelectContent>
 				</Select>
 			</div>
-
-			{/* Conditionally render input fields based on selected post type */}
 			{formData.postType === "gratitude" && (
 				<div className="grid gap-2">
 					<Label htmlFor="gratefulFor">I am grateful for</Label>
@@ -261,7 +253,6 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 				</div>
 			)}
 
-			{/* Radio group for audience selection */}
 			<div className="grid gap-2">
 				<Label>Who can see this post?</Label>
 				<RadioGroup
@@ -283,10 +274,8 @@ const NewPostForm = ({ className, setOpen }: NewPostFormProps) => {
 				</RadioGroup>
 			</div>
 
-			{/* Error message */}
 			{formError && <p className="text-red-600">{formError}</p>}
 
-			{/* Submit button */}
 			<Button type="submit" disabled={isAnalyzing || !isFormValid}>
 				{isAnalyzing ? "Analyzing..." : "Create Post"}
 			</Button>

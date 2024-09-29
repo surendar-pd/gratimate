@@ -124,21 +124,18 @@ const getHabits = async ({
 	const db = getFirestore(); // Get Firestore instance
 	const habitsCollection = collection(db, "habits");
 
-	// Query to get all habits for the user
 	const habitsQuery = query(habitsCollection, where("userId", "==", userId));
 	const habitsSnapshot = await getDocs(habitsQuery);
 
 	const habits: HabitWithEntry[] = (
 		await Promise.all(
 			habitsSnapshot.docs.map(async (habitDoc) => {
-				const habit = habitDoc.data() as Habit; // Cast to Habit type
-				const habitCreatedDate = new Date(habit._creationTime); // Assuming _creationTime is stored as a timestamp
+				const habit = habitDoc.data() as Habit; 
+				const habitCreatedDate = new Date(habit._creationTime);
 
-				// Normalize habit created date to midnight
 				habitCreatedDate.setHours(0, 0, 0, 0);
 				const userSelectedDate = parseISOString(date);
 
-				// Check if the user's selected date is after or on the habit's created date
 				if (userSelectedDate >= habitCreatedDate) {
 					const entryDocRef = doc(
 						db,
@@ -146,10 +143,8 @@ const getHabits = async ({
 						`${habitDoc.id}-${date}`
 					);
 
-					// Try to fetch the entry for the habit and date
 					const entrySnapshot = await getDoc(entryDocRef);
 
-					// If the entry doesn't exist, create a new one
 					if (!entrySnapshot.exists()) {
 						await setDoc(entryDocRef, {
 							habitId: habitDoc.id,
@@ -158,22 +153,20 @@ const getHabits = async ({
 						});
 					}
 
-					// Fetch the updated entry
 					const entryData = (await getDoc(entryDocRef)).data() as
 						| Entry
-						| undefined; // Cast to Entry type or undefined
+						| undefined;
 
 					return {
 						habitId: habitDoc.id,
-						habit: { ...habit, _id: habitDoc.id }, // Include habit data along with ID
-						entry: entryData || null, // Default to null if entryData is undefined
+						habit: { ...habit, _id: habitDoc.id }, 
+						entry: entryData || null,
 					};
 				}
-				return null; // Exclude habits that don't match the date criteria
+				return null; 
 			})
 		)
 	).filter((habit): habit is HabitWithEntry => habit !== null);
 
-	// Filter out any null values (habits that were excluded)
 	return habits.filter((habit): habit is HabitWithEntry => habit !== null);
 };

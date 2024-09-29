@@ -27,7 +27,6 @@ const AddNewPost = () => {
 	const isDesktop =
 		typeof window !== "undefined" &&
 		window.matchMedia("(min-width: 768px)").matches;
-	// const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	if (isDesktop) {
 		return (

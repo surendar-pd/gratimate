@@ -4,82 +4,69 @@ import React, { useEffect, useState } from "react";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { Button } from "./ui/button";
 import { auth, db } from "@/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore"; // Import Firestore functions
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-
 
 const GoogleAuthButton = () => {
 	const router = useRouter();
-	const [loading, setLoading] = useState(true); // State to manage loading
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		// Check if a user is already signed in
 		const unsubscribe = auth.onAuthStateChanged(async (user) => {
-			setLoading(false); // Stop loading when the auth state is checked
+			setLoading(false);
 			if (user) {
-				// User is already signed in
 				const userDocRef = doc(db, "users", user.uid);
 				const userDoc = await getDoc(userDocRef);
 
 				if (!userDoc.exists()) {
-					// User does not exist, add them to Firestore
 					await setDoc(userDocRef, {
 						uid: user.uid,
 						displayName: user.displayName?.toLowerCase(),
 						email: user.email,
 						photoURL: user.photoURL,
-						createdAt: new Date(), // Add a createdAt field
+						createdAt: new Date(),
 					});
-					router.replace("/home"); // Adjust the path as needed
+					router.replace("/home/feed");
 				} else {
-					router.replace("/home"); // Adjust the path as needed
+					router.replace("/home/feed");
 				}
-
-				// Redirect to home page
-				router.replace("/home"); // Adjust the path as needed
+				router.replace("/home/feed");
 			}
 		});
 
-		return () => unsubscribe(); // Clean up the listener on unmount
+		return () => unsubscribe();
 	}, [router]);
 
 	const handleLogin = async () => {
 		const provider = new GoogleAuthProvider();
 		try {
-			setLoading(true); // Start loading when login is initiated
+			setLoading(true);
 			const result = await signInWithPopup(auth, provider);
 			const user = result.user;
-
-			// Reference to the user document in Firestore
 			const userDocRef = doc(db, "users", user.uid);
-
-			// Check if the user already exists in Firestore
 			const userDoc = await getDoc(userDocRef);
 			if (!userDoc.exists()) {
-				// User does not exist, add them to Firestore
 				await setDoc(userDocRef, {
 					uid: user.uid,
-					displayName: user.displayName,
+					displayName: user.displayName?.toLowerCase(),
 					email: user.email,
 					photoURL: user.photoURL,
-					createdAt: new Date(), // Add a createdAt field
+					createdAt: new Date(),
 				});
-				router.replace("/home"); // Adjust the path as needed
+				router.replace("/home/feed");
 			} else {
-				router.replace("/home"); // Adjust the path as needed
+				router.replace("/home/feed");
 			}
-
-			// Redirect to home page
-			router.replace("/home"); // Adjust the path as needed
+			router.replace("/home/feed");
 		} catch (error) {
 			console.error("Login failed:", error);
 		} finally {
-			setLoading(false); // Stop loading after login process
+			setLoading(false);
 		}
 	};
 
 	if (loading) {
-		return <div>Loading...</div>; // You can replace this with a loading spinner
+		return <div>Loading...</div>;
 	}
 
 	return (

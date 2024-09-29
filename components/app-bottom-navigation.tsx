@@ -1,8 +1,8 @@
 "use client";
 import { Bot, House, ListCheck, Plus, UsersRound } from "lucide-react";
 import React from "react";
-import Link from "next/link"; // Assuming you're using Next.js
-import { Button } from "./ui/button"; // Your button component
+import Link from "next/link";
+import { Button } from "./ui/button";
 import AddNewPost from "./add-new-post";
 
 const BottomNavigation = () => {
@@ -20,7 +20,7 @@ const BottomNavigation = () => {
 		{
 			title: "Create",
 			icon: Plus,
-			component: <AddNewPost />, // Rendered when no link is provided
+			component: <AddNewPost />,
 		},
 		{
 			title: "Friends",

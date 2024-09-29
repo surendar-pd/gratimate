@@ -19,7 +19,7 @@ interface FriendRequest {
 	id: string;
 	from: string;
 	status: string;
-	fromUserData?: User; // To store the actual user data from 'users' collection
+	fromUserData?: User;
 }
 
 const FriendRequests = () => {
@@ -33,7 +33,6 @@ const FriendRequests = () => {
 			if (user) {
 				await fetchFriendRequests(user.uid);
 			} else {
-				// Handle signed-out state if necessary
 			}
 		});
 		return () => unsubscribe();
@@ -52,17 +51,13 @@ const FriendRequests = () => {
 			const requestsList = await Promise.all(
 				querySnapshot.docs.map(async (docSnapshot) => {
 					const requestData = docSnapshot.data() as FriendRequest;
-
-					// Fetch the user data based on 'from' field (user who sent the request)
 					const fromUserRef = doc(db, "users", requestData.from);
 					const fromUserSnap = await getDoc(fromUserRef);
 					const fromUserData = fromUserSnap.data() as User | undefined;
-
-					// Attach the actual user data to the request object
 					return {
 						...requestData,
 						id: docSnapshot.id,
-						fromUserData, // Store actual user data
+						fromUserData,
 					};
 				})
 			);
@@ -84,31 +79,25 @@ const FriendRequests = () => {
 			const currentUserRef = doc(db, "users", currentUser.uid);
 			const currentUserSnap = await getDoc(currentUserRef);
 			const currentUserData = currentUserSnap.data();
-
 			const friendUserRef = doc(db, "users", friendId);
 			const friendUserSnap = await getDoc(friendUserRef);
 			const friendUserData = friendUserSnap.data();
-
 			const requestRef = doc(db, "friend_requests", requestId);
 			await updateDoc(requestRef, { status: "accepted" });
-
 			await updateDoc(currentUserRef, {
 				friends: [...(currentUserData!.friends || []), friendId],
 			});
 			await updateDoc(friendUserRef, {
 				friends: [...(friendUserData!.friends || []), currentUser.uid],
 			});
-
 			await fetchFriendRequests(currentUser.uid);
 		} catch (error) {
 			console.error("Error accepting friend request: ", error);
 		}
 	};
-
 	if (friendRequests.length === 0) {
-		return null; // Don't render anything if there are no friend requests
+		return null;
 	}
-
 	return (
 		<div>
 			<h2 className="text-xl font-semibold mb-4">Friend Requests</h2>
@@ -123,7 +112,6 @@ const FriendRequests = () => {
 							key={request.id}
 							className="flex items-center justify-between p-2 border-b"
 						>
-							{/* Display user name or email based on the fetched data */}
 							<div className="flex gap-2">
 								<Image
 									width={100}

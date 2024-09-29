@@ -8,7 +8,7 @@ import Image from "next/image";
 
 interface Friend {
 	id: string;
-	friendData?: User; // To store friend user data from 'users' collection
+	friendData?: User;
 }
 
 const FriendsList = () => {
@@ -22,7 +22,6 @@ const FriendsList = () => {
 			if (user) {
 				await fetchFriends(user.uid);
 			} else {
-				// Handle signed-out state if necessary
 			}
 		});
 		return () => unsubscribe();
@@ -31,23 +30,20 @@ const FriendsList = () => {
 	const fetchFriends = async (uid: string) => {
 		setLoading(true);
 		try {
-			// Fetch the current user's data to get their friends list
 			const userRef = doc(db, "users", uid);
 			const userSnap = await getDoc(userRef);
 			const userData = userSnap.data();
 
 			if (userData && userData.friends) {
-				// Assuming friends is an array of UIDs
 				const friendsList = await Promise.all(
 					userData.friends.map(async (friendId: string) => {
-						// Fetch each friend's data
 						const friendRef = doc(db, "users", friendId);
 						const friendSnap = await getDoc(friendRef);
 						const friendData = friendSnap.data();
 
 						return {
 							id: friendId,
-							friendData, // Store friend's actual data
+							friendData,
 						};
 					})
 				);
