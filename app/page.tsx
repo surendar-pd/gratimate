@@ -1,8 +1,8 @@
-import Category from "@/components/home/Category";
-import Faqs from "@/components/home/Faqs";
-import Features from "@/components/home/Features";
-import Hero from "@/components/home/Hero";
-import Humans from "@/components/home/Humans";
+import Category from "@/components/home/home/Category";
+import Faqs from "@/components/home/home/Faqs";
+import Features from "@/components/home/home/Features";
+import Hero from "@/components/home/home/Hero";
+import Humans from "@/components/home/home/Humans";
 import Footer from "@/components/layouts/Footer";
 import Header from "@/components/layouts/Header";
 
